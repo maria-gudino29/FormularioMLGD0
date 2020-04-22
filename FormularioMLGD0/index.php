@@ -7,8 +7,8 @@
 	<strong>Bienvenidos...</strong><br>
 	
 <ul>
-	<li><a href="formulario.php>">Formulario</a></li>
-	<li><a href="./personas/personasControlador.php?operacion=index">Módulo 2</a> </li>
+	<li><a href="formulario.html">Formulario</a></li>
+	<li><a href="PersonasControlador.php?operacion=index">Modulo 2</a> </li>
 	<li><a href="#">Personas</a> </li>
 
 </ul>
