@@ -1,0 +1,33 @@
+<?php
+include ("clasedb.php");//se introduce la ruta de conexion con la clase db, la cual controla y conecta con la base de datos
+extract($_REQUEST);
+class PersonaControlador{
+
+	public function index(){//index.php será el controlador frontal por el que pasará absolutamente todo en la aplicación.
+	
+		$db=new clasedb();//se instancia la clasedb
+		$conex=$db->conectar();//se conecta con la base de datos
+
+		$sql="SELECT * FROM datos_personales";// se indica el nombre de la tabla en la base de datos con query
+
+		$res=mysqli_query($conex,$sql);//se realiza al servidor una query  utilizando la conexión y la consulta creada previamente
+
+		$campos=mysqli_num_fields($res);//indica cuantos campos trae la cunsulta
+
+		$filas=mysqli_num_rows($res);//se ejecuta una función para obtener el numero de filas devuelta por la consulta ejecutada. Se guardará el resultado en una variable
+		
+		$i=0;
+		$datos[]=array();//se inicializa array
+		
+		//utilizaremos el ciclo for incremental para extraer los datos
+		while($data=mysqli_fetch_array($res)){
+			for ($j=0; $j <$campos ; $j++){ 
+				$datos[$i][$j]=$data[$j];
+			}//cierre del ciclo for
+			$i++;
+		}
+			mysqli_close($conex);
+			//enviando datos
+			header("Location:listar.php?filas=".$filas."&campos=".$campos."&data=".serialize($datos));	//redirecciona al usuario a otra pagina, en este caso a listar.php
+	}
+	//fin de la funcion index

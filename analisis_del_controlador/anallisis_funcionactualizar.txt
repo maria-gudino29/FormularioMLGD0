@@ -1,0 +1,53 @@
+public function actualizar(){
+
+		extract($_POST);//EXTRAYENDO VARIABLES DEL FORMULARIO
+		$db=new clasedb();
+		$conex=$db->conectar();//conectando con la base de datos
+
+		$sql="SELECT * FROM datos_personales WHERE cedula = dni='{$number}' AND id <> '{$id_persona}';//guardamos en una variable una estructura de consulta sql, la cual será enviada al servidor.
+
+		$res=mysqli_query($conex,$sql);//se realiza al servidor una query  utilizando la conexión y la consulta creada previamente
+
+		$cant=mysqli_num_rows($res);// Se ejecuta una función para obtener el numero de registros devuelve la consulta ejecutada. Se guardará el resultado en una variable.
+		
+
+		if ($cant > 0){//se crea un condicional if para que verifique Si la variable "$cant" que es la que contiene el numero de filas de la consulta; contiene un número mayor a 0.
+
+			?>//se cierra la llave de php para poder escribir un texto plano
+
+				<script type="text/javascript">//Creamos una etiqueta <script> dandole el tipo "text/javascript" que nos permite escribir allí.
+
+					alert("CEDULA YA REGISTRADA");// Creamos una alerta de javascript para notificar al usuario la existencia de la cédula.
+
+					window.location="PersonasControlador.php?operacion=index"//utilizamos la variable global de javascript "window" y su atributo "location" que nos permitirá redireccionar al usuario a otra parte del programa.
+
+				</script>//cerramos la etiqueta <script>
+
+			<?php //abrimos de nuevo las llaves de PHP para poder comenzar nuevamente el código PHP.
+
+		}else{//Cerramos las llaves del condicional if y añadimos un else, continuando el caso opuesto
+
+			$sql="UPDATE datos_personales SET first_name='{$nombres}',last_name='{$apellidos}',dni='{$number}' WHERE id = ".$id_persona;
+			$res=mysqli_query($conex,$sql);//asignamos una estructura de consulta sql a la variable "$sql" para poder insertar a un nuevo usuario en la base de datos. 
+
+
+				if($res){//se crea un condicional if para que verifique el resultado del servidor, se emitirá una alerta encaso de cumplirse el condicional y en caso contrario.
+					?>
+					<script type="text/javascript">//Creamos una etiqueta <script> dandole el tipo "text/javascript" que nos permite escribir allí el registro a modificar.
+							alert("REGISTRO MODIFICADO");//modal que avisa  el condicional se cumplió y el registro fue procesado. 
+							window.location="PersonasControlador.php?operacion=index";
+					</script>
+					<?php
+
+				}else{
+
+					?>	
+					<script type="text/javascript">//Creamos una etiqueta <script> dandole el tipo "text/javascript" que nos permite escribir allí el registro a modificar.
+						alert("ERROR AL MODIFICAR EL REGISTRO"); //Modal que avisa que no se cumplió el condicional y por ende, no se procesó le registro.
+						window.location="PersonasControlador.php?operacion=index";
+					</script>//redirecciona al usuario a otra pagina, en este caso a PersonasControlador.php.
+					<?php
+
+			}
+		}
+	}//Fin de la funcion actualizar

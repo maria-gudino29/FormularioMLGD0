@@ -1,0 +1,22 @@
+public function modificar (){
+		extract($_REQUEST);//Extrayendo valores de url
+		$db=new clasedb();//se instancia la clasedb
+		$conex=$db->conectar();//conectando con la base de datos
+
+		$sql="SELECT * FROM datos_personales WHERE id = '{$id_persona}'";// se indica el nombre de la tabla en la base de datos con query
+
+		$res=mysqli_query($conex,$sql);//ejecutando query
+		$campos=mysqli_num_fields($res);//cuantos campos trae la cunsulta
+		$filas=mysqli_num_rows($res);//indica cuantas filas trae la consulta
+		$i=0;
+		$datos[]=array();//inicializando array
+		
+		//utilizaremos el ciclo for incremental para extraer los datos
+		while($data=mysqli_fetch_array($res)){
+			for ($j=0; $j <$campos ; $j++){ 
+				$datos[$i][$j]=$data[$j];
+			}//cierre del ciclo for
+			$i++;
+		}
+		header("Location: editar.php?data=".serialize($datos));//redireccionamos al usuario a otra pagina, en este caso a editar.php
+	}
